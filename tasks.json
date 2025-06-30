@@ -18,22 +18,37 @@
     {
       "id": 4,
       "description": "Implement model loading and inference in main.py using the TensorFlow model directly",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": 5,
       "description": "Implement batch processing logic in the API",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": 6,
       "description": "Test the API endpoints and model inference",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": 7,
       "description": "Update documentation and rules as project evolves",
-      "status": "todo"
+      "status": "done"
+    },
+    {
+      "id": 8,
+      "description": "Deploy to Render.com and handle memory optimization",
+      "status": "done"
+    },
+    {
+      "id": 9,
+      "description": "Create lightweight version for free tier deployment (tiny-gpt2 model)",
+      "status": "done"
+    },
+    {
+      "id": 10,
+      "description": "Switch to lightweight version to resolve OOM issues",
+      "status": "done"
     }
   ]
 } 

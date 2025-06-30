@@ -9,15 +9,15 @@ import os
 
 app = FastAPI()
 
-# Use a smaller model that fits in 512MB RAM
-MODEL_NAME = 'gpt2'  # Smaller than distilgpt2 for memory constraints
-MODEL_DIR = 'models/gpt2'
+# Use the smallest possible model for free tier
+MODEL_NAME = 'sshleifer/tiny-gpt2'  # Much smaller than regular GPT-2
+MODEL_DIR = 'models/tiny-gpt2'
 
 # Memory optimization settings
 tf.config.experimental.set_memory_growth(tf.config.list_physical_devices('GPU')[0], True) if tf.config.list_physical_devices('GPU') else None
 
 def load_model_and_tokenizer():
-    """Load model with memory optimizations"""
+    """Load model with aggressive memory optimizations"""
     # Set memory growth to prevent TensorFlow from allocating all GPU memory
     gpus = tf.config.experimental.list_physical_devices('GPU')
     if gpus:
@@ -27,12 +27,13 @@ def load_model_and_tokenizer():
         except RuntimeError as e:
             print(e)
     
-    # Load model with low memory settings
+    # Load model with aggressive memory settings
     model = TFAutoModelForCausalLM.from_pretrained(
         MODEL_NAME, 
         cache_dir=MODEL_DIR,
         low_cpu_mem_usage=True,
-        tf_dtype=tf.float16  # Use half precision to save memory
+        tf_dtype=tf.float16,  # Use half precision
+        device_map='auto' if tf.config.list_physical_devices('GPU') else None
     )
     
     tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, cache_dir=MODEL_DIR)
@@ -48,7 +49,7 @@ tokenizer = None
 
 class GenerateRequest(BaseModel):
     prompts: Union[str, List[str]]
-    max_tokens: int = 64  # Reduced from 128 to save memory
+    max_tokens: int = 32  # Very small for memory constraints
     temperature: float = 1.0
 
 class GenerateResponse(BaseModel):
@@ -61,6 +62,7 @@ def startup_event():
         model, tokenizer = load_model_and_tokenizer()
         # Force garbage collection after loading
         gc.collect()
+        print("Model loaded successfully with memory optimizations")
     except Exception as e:
         print(f"Error loading model: {e}")
         # Continue without model - will return error on requests
@@ -74,30 +76,31 @@ def generate_text(request: GenerateRequest):
     if isinstance(prompts, str):
         prompts = [prompts]
     
-    # Limit batch size to prevent memory issues
-    if len(prompts) > 3:
-        raise HTTPException(status_code=400, detail="Maximum 3 prompts per request to prevent memory issues.")
+    # Very strict batch size limit
+    if len(prompts) > 1:
+        raise HTTPException(status_code=400, detail="Maximum 1 prompt per request for memory constraints.")
     
     results = []
     for prompt in prompts:
         try:
             input_ids = tokenizer.encode(prompt, return_tensors="tf")
             
-            # Use smaller generation parameters
+            # Use very small generation parameters
             output = model.generate(
                 input_ids,
-                max_new_tokens=min(request.max_tokens, 64),  # Cap at 64 tokens
+                max_new_tokens=min(request.max_tokens, 32),  # Cap at 32 tokens
                 temperature=request.temperature,
                 do_sample=True,
                 pad_token_id=tokenizer.eos_token_id,
                 num_return_sequences=1,
-                early_stopping=True
+                early_stopping=True,
+                repetition_penalty=1.1
             )
             
             generated = tokenizer.decode(output[0], skip_special_tokens=True)
             results.append(generated)
             
-            # Clear some memory after each generation
+            # Clear memory immediately
             del output
             gc.collect()
             
@@ -111,5 +114,15 @@ def health():
     return {
         "status": "ok" if model is not None else "model_not_loaded",
         "model_loaded": model is not None,
-        "memory_usage": "optimized"
+        "model": MODEL_NAME,
+        "memory_usage": "ultra_lightweight"
+    }
+
+@app.get("/")
+def root():
+    return {
+        "message": "Local LLM API - Lightweight Version",
+        "model": MODEL_NAME,
+        "endpoints": ["/generate", "/health"],
+        "memory_optimized": True
     } 

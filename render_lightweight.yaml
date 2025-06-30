@@ -13,5 +13,4 @@ services:
       - key: TF_CPP_MIN_LOG_LEVEL
         value: "2"  # Reduce TensorFlow logging
       - key: PYTHONUNBUFFERED
-        value: "1"
- 
+        value: "1" 

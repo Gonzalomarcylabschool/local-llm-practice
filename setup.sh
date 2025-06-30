@@ -1,30 +1,38 @@
-git pu#!/bin/bash
-set -e
+#!/bin/bash
 
-# Check for Python 3.10+
-PYTHON_VERSION=$(python3 -c 'import sys; print("{}.{}".format(sys.version_info[0], sys.version_info[1]))')
-if [[ $(echo "$PYTHON_VERSION < 3.10" | bc) -eq 1 ]]; then
-  echo "Python 3.10 or higher is required. Found $PYTHON_VERSION."
-  exit 1
-fi
+echo "Setting up local LLM API..."
 
 # Install dependencies
-if [ -f requirements.txt ]; then
-  pip install --upgrade pip
-  pip install -r requirements.txt
-else
-  echo "requirements.txt not found!"
-  exit 1
-fi
+pip install -r requirements.txt
 
-# Download DistilGPT2 model and tokenizer
-python3 - <<END
+# Create models directory
+mkdir -p models/gpt2
+
+# Download GPT-2 model and tokenizer (smaller than DistilGPT2)
+echo "Downloading GPT-2 model and tokenizer..."
+python -c "
 from transformers import TFAutoModelForCausalLM, AutoTokenizer
 import os
-os.makedirs('models/distilgpt2', exist_ok=True)
-TFAutoModelForCausalLM.from_pretrained('distilgpt2', cache_dir='models/distilgpt2')
-AutoTokenizer.from_pretrained('distilgpt2', cache_dir='models/distilgpt2')
-print('DistilGPT2 model and tokenizer downloaded.')
-END
+
+# Set cache directory
+cache_dir = 'models/gpt2'
+
+# Download model with memory optimizations
+model = TFAutoModelForCausalLM.from_pretrained(
+    'gpt2', 
+    cache_dir=cache_dir,
+    low_cpu_mem_usage=True,
+    tf_dtype='float16'
+)
+
+# Download tokenizer
+tokenizer = AutoTokenizer.from_pretrained('gpt2', cache_dir=cache_dir)
+
+# Set pad token if not present
+if tokenizer.pad_token is None:
+    tokenizer.pad_token = tokenizer.eos_token
+
+print('GPT-2 model and tokenizer downloaded.')
+"
 
 echo "Setup complete." 
