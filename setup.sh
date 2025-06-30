@@ -21,7 +21,6 @@ cache_dir = 'models/gpt2'
 model = TFAutoModelForCausalLM.from_pretrained(
     'gpt2', 
     cache_dir=cache_dir,
-    low_cpu_mem_usage=True,
     tf_dtype='float16'
 )
 
