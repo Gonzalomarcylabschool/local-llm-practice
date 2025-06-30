@@ -1,4 +1,6 @@
 fastapi
 uvicorn
 tensorflow
-transformers 
+transformers
+tf-keras
+keras<3 
