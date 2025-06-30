@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: local-llm-api
+    env: python
+    buildCommand: bash setup.sh
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    plan: starter
+    envVars:
+      - key: TRANSFORMERS_CACHE
+        value: /tmp/hf-cache 

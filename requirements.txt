@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+tensorflow
+# tflite-runtime  # Uncomment if you want minimal TensorFlow Lite runtime only
+transformers 

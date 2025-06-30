@@ -1,0 +1,39 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "description": "Set up Python 3.10 environment with pyenv and install dependencies",
+      "status": "done"
+    },
+    {
+      "id": 2,
+      "description": "Select and download a small LLM model (e.g., DistilGPT2)",
+      "status": "done"
+    },
+    {
+      "id": 3,
+      "description": "Convert the model to TensorFlow Lite format (not feasible for DistilGPT2, using TensorFlow model directly)",
+      "status": "skipped"
+    },
+    {
+      "id": 4,
+      "description": "Implement model loading and inference in main.py using the TensorFlow model directly",
+      "status": "todo"
+    },
+    {
+      "id": 5,
+      "description": "Implement batch processing logic in the API",
+      "status": "todo"
+    },
+    {
+      "id": 6,
+      "description": "Test the API endpoints and model inference",
+      "status": "todo"
+    },
+    {
+      "id": 7,
+      "description": "Update documentation and rules as project evolves",
+      "status": "todo"
+    }
+  ]
+} 
