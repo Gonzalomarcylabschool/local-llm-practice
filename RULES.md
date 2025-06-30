@@ -4,8 +4,8 @@
 - Use lightweight, CPU-friendly language models (e.g., DistilBERT, DistilGPT2, or similar small GPT variants).
 
 ## Environment Setup
-- Use Python 3.10 (required for TensorFlow and TensorFlow Lite compatibility).
-- Install TensorFlow and TensorFlow Lite.
+- Use Python 3.10 (required for TensorFlow compatibility).
+- Install TensorFlow.
 - Install other necessary libraries as required.
 
 ## Model Optimization Update
@@ -17,7 +17,7 @@
 - Process API inputs in small batches to manage memory usage efficiently.
 
 ## Frameworks
-- Use TensorFlow Lite for optimized CPU inference.
+- Use standard TensorFlow for inference.
 - Use FastAPI or Flask to serve the model as a web API.
 
 ## Deployment

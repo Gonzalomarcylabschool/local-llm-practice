@@ -1,17 +1,16 @@
 # Local LLM API
 
-A lightweight web API for running a local language model (LLM) using TensorFlow Lite, optimized for CPU inference. No calls to external APIs required.
+A lightweight web API for running a local language model (LLM) using standard TensorFlow, optimized for CPU inference. No calls to external APIs required.
 
 ## Features
 - Runs a small LLM (e.g., DistilGPT2) locally
-- Optimized for CPU with TensorFlow Lite
+- Optimized for CPU with standard TensorFlow
 - FastAPI web service
 - Batch processing support
 
 ## Requirements
 - Python 3.10
 - TensorFlow
-- TensorFlow Lite
 - FastAPI
 - Uvicorn
 - transformers
