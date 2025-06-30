@@ -66,5 +66,11 @@
 - Do not commit model files or virtual environments to version control (see .gitignore).
 - Use the provided setup script to install dependencies and download required models after cloning the repository.
 
+## TensorFlow Lite (TFLite) Status
+- The API currently uses standard TensorFlow for DistilGPT2 inference, not TensorFlow Lite.
+- Reason: Generative models like DistilGPT2 use layers and operations not fully supported by TensorFlow Lite. Attempts to convert the model to TFLite failed due to these limitations.
+- TFLite is currently best suited for smaller, simpler models (e.g., for classification or mobile/edge use cases), not for generative LLMs.
+- If TensorFlow Lite adds support for generative transformer models in the future, the API and setup scripts will be updated to take advantage of the improved performance and reduced size.
+
 ---
 This document will be updated as new decisions and tools are added to the project. 

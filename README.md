@@ -50,5 +50,8 @@ A lightweight web API for running a local language model (LLM) using TensorFlow 
 ## Service Usage
 This API is designed to run as a standalone web service. Other applications (clients) should interact with it by making HTTP requests to the API endpoints. It is not intended to be imported or used as a direct Python library.
 
+## TensorFlow Lite (TFLite) Note
+This API currently uses standard TensorFlow for DistilGPT2 inference. Attempts to convert the model to TensorFlow Lite (TFLite) were unsuccessful due to unsupported layers and operations in generative models like DistilGPT2. TFLite is best suited for smaller, simpler models (e.g., for classification or mobile/edge use cases), not for generative LLMs. If TFLite adds support for generative transformer models in the future, this API will be updated to use it for improved performance and reduced size.
+
 ---
 See `RULES.md` for design and implementation decisions.
