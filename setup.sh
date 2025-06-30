@@ -1,4 +1,4 @@
-#!/bin/bash
+git pu#!/bin/bash
 set -e
 
 # Check for Python 3.10+
