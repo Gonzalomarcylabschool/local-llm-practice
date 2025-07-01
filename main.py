@@ -30,8 +30,7 @@ def load_model_and_tokenizer():
     # Load model with low memory settings
     model = TFAutoModelForCausalLM.from_pretrained(
         MODEL_NAME, 
-        cache_dir=MODEL_DIR,
-        tf_dtype=tf.float16  # Use half precision to save memory
+        cache_dir=MODEL_DIR
     )
     
     tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, cache_dir=MODEL_DIR)

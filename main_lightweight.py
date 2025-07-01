@@ -43,7 +43,6 @@ def load_model_and_tokenizer():
         model = TFAutoModelForCausalLM.from_pretrained(
             MODEL_NAME, 
             cache_dir=MODEL_DIR,
-            tf_dtype=tf.float16,  # Use half precision
             local_files_only=True  # Only use local files
         )
         print("Model loaded successfully.")

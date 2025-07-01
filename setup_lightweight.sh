@@ -37,8 +37,7 @@ try:
     print('Downloading model (this may take a few minutes)...')
     model = TFAutoModelForCausalLM.from_pretrained(
         'sshleifer/tiny-gpt2', 
-        cache_dir=cache_dir,
-        tf_dtype='float16'
+        cache_dir=cache_dir
     )
     print('Model downloaded successfully.')
     

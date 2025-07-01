@@ -20,8 +20,7 @@ cache_dir = 'models/gpt2'
 # Download model with memory optimizations
 model = TFAutoModelForCausalLM.from_pretrained(
     'gpt2', 
-    cache_dir=cache_dir,
-    tf_dtype='float16'
+    cache_dir=cache_dir
 )
 
 # Download tokenizer
