@@ -31,7 +31,6 @@ def load_model_and_tokenizer():
     model = TFAutoModelForCausalLM.from_pretrained(
         MODEL_NAME, 
         cache_dir=MODEL_DIR,
-        low_cpu_mem_usage=True,
         tf_dtype=tf.float16  # Use half precision to save memory
     )
     
